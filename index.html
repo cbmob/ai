@@ -6,11 +6,7 @@
 <title>マインドAIサポート</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 html,body{
 width:100%;
@@ -30,8 +26,37 @@ align-items:center;
 justify-content:center;
 }
 
-.hidden{
-display:none;
+.hidden{display:none}
+
+#lockScreen{
+z-index:50;
+background:radial-gradient(circle,#111 0%,#000 70%);
+}
+
+.lock-title{
+font-size:32px;
+font-weight:900;
+margin-bottom:24px;
+text-shadow:0 0 12px #fff;
+}
+
+#passwordInput{
+width:220px;
+padding:14px;
+font-size:24px;
+text-align:center;
+border-radius:12px;
+border:1px solid #fff;
+background:#000;
+color:#fff;
+letter-spacing:8px;
+}
+
+.error{
+height:24px;
+margin-top:12px;
+color:#ff7777;
+font-size:14px;
 }
 
 #words{
@@ -50,20 +75,10 @@ white-space:nowrap;
 }
 
 @keyframes float{
-0%{
-transform:translateY(40px) scale(.8);
-opacity:0;
-}
-20%{
-opacity:.25;
-}
-80%{
-opacity:.25;
-}
-100%{
-transform:translateY(-120px) scale(1.2);
-opacity:0;
-}
+0%{transform:translateY(40px) scale(.8);opacity:0}
+20%{opacity:.25}
+80%{opacity:.25}
+100%{transform:translateY(-120px) scale(1.2);opacity:0}
 }
 
 #title{
@@ -72,21 +87,13 @@ font-weight:900;
 letter-spacing:4px;
 text-align:center;
 animation:fadeIn 2s ease;
-text-shadow:
-0 0 10px #fff,
-0 0 30px #fff;
+text-shadow:0 0 10px #fff,0 0 30px #fff;
 z-index:2;
 }
 
 @keyframes fadeIn{
-from{
-opacity:0;
-transform:scale(.8);
-}
-to{
-opacity:1;
-transform:scale(1);
-}
+from{opacity:0;transform:scale(.8)}
+to{opacity:1;transform:scale(1)}
 }
 
 .message{
@@ -128,44 +135,34 @@ padding:20px;
 }
 </style>
 </head>
+
 <body>
 
-<div id="titleScreen" class="screen">
-
-<div id="words"></div>
-
-<div id="title">
-マインドAIサポート
+<div id="lockScreen" class="screen">
+  <div class="lock-title">鍵がかかっています</div>
+  <input id="passwordInput" type="password" inputmode="numeric" maxlength="4" placeholder="----">
+  <button class="btn" id="unlockBtn">開く</button>
+  <div class="error" id="errorText"></div>
 </div>
 
-<div class="message">
-深呼吸をして次へ進んでください
-</div>
-
-<button class="btn" id="startBtn">
-次へ
-</button>
-
+<div id="titleScreen" class="screen hidden">
+  <div id="words"></div>
+  <div id="title">マインドAIサポート</div>
+  <div class="message">深呼吸をして次へ進んでください</div>
+  <button class="btn" id="startBtn">次へ</button>
 </div>
 
 <div id="viewer" class="screen hidden">
-
-<img id="slideImage">
-
-<button class="btn" id="nextBtn">
-次へ
-</button>
-
+  <img id="slideImage">
+  <button class="btn" id="nextBtn">次へ</button>
 </div>
 
 <div id="finished" class="screen hidden">
-<div class="done">
-既に閲覧済みです
-</div>
+  <div class="done">既に閲覧済みです</div>
 </div>
 
 <script>
-
+const PASSWORD="0123";
 const SAVE_KEY="mind_ai_support_finished";
 
 const images=[
@@ -183,107 +180,79 @@ const images=[
 "22.png"
 ];
 
+const lockScreen=document.getElementById("lockScreen");
+const titleScreen=document.getElementById("titleScreen");
+const viewer=document.getElementById("viewer");
+const finished=document.getElementById("finished");
+const passwordInput=document.getElementById("passwordInput");
+const errorText=document.getElementById("errorText");
+
 if(localStorage.getItem(SAVE_KEY)){
-document.getElementById("titleScreen").classList.add("hidden");
-document.getElementById("finished").classList.remove("hidden");
+lockScreen.classList.add("hidden");
+finished.classList.remove("hidden");
+}
+
+document.getElementById("unlockBtn").addEventListener("click",unlock);
+
+passwordInput.addEventListener("keydown",e=>{
+if(e.key==="Enter") unlock();
+});
+
+function unlock(){
+if(passwordInput.value===PASSWORD){
+lockScreen.classList.add("hidden");
+titleScreen.classList.remove("hidden");
+}else{
+errorText.textContent="パスワードが違います";
+passwordInput.value="";
+}
 }
 
 const words=[
-"強欲",
-"性欲",
-"睡眠欲",
-"努力",
-"食欲",
-"不安",
-"希望",
-"未来",
-"絶望",
-"哀愁",
-"愛",
-"執着",
-"孤独",
-"感謝",
-"怒り",
-"慈悲",
-"信念",
-"嫉妬",
-"幸福",
-"後悔",
-"恐怖",
-"自由"
+"強欲","性欲","睡眠欲","努力","食欲","不安","希望","未来",
+"絶望","哀愁","愛","執着","孤独","感謝","怒り","慈悲",
+"信念","嫉妬","幸福","後悔","恐怖","自由"
 ];
 
 const container=document.getElementById("words");
 
 for(let i=0;i<80;i++){
-
 const div=document.createElement("div");
-
 div.className="word";
 div.textContent=words[Math.floor(Math.random()*words.length)];
-
 div.style.left=Math.random()*100+"%";
 div.style.top=Math.random()*100+"%";
-
-div.style.fontSize=
-(12+Math.random()*70)+"px";
-
-div.style.animationDuration=
-(8+Math.random()*12)+"s";
-
-div.style.animationDelay=
-(-Math.random()*15)+"s";
-
+div.style.fontSize=(12+Math.random()*70)+"px";
+div.style.animationDuration=(8+Math.random()*12)+"s";
+div.style.animationDelay=(-Math.random()*15)+"s";
 container.appendChild(div);
-
 }
 
 let index=0;
-
-const viewer=document.getElementById("viewer");
-const title=document.getElementById("titleScreen");
 const image=document.getElementById("slideImage");
 
-document.getElementById("startBtn")
-.addEventListener("click",()=>{
-
-title.classList.add("hidden");
+document.getElementById("startBtn").addEventListener("click",()=>{
+titleScreen.classList.add("hidden");
 viewer.classList.remove("hidden");
-
 showImage();
-
 });
 
 function showImage(){
-
 image.src=images[index];
-
 }
 
-document.getElementById("nextBtn")
-.addEventListener("click",()=>{
-
+document.getElementById("nextBtn").addEventListener("click",()=>{
 index++;
 
 if(index>=images.length){
-
-localStorage.setItem(
-SAVE_KEY,
-"true"
-);
-
+localStorage.setItem(SAVE_KEY,"true");
 viewer.classList.add("hidden");
-
-document.getElementById("finished")
-.classList.remove("hidden");
-
+finished.classList.remove("hidden");
 return;
 }
 
 showImage();
-
 });
-
 </script>
 
 </body>
