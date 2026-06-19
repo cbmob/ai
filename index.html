@@ -40,7 +40,7 @@ margin-bottom:24px;
 text-shadow:0 0 12px #fff;
 }
 
-#passwordInput{
+.password-input{
 width:220px;
 padding:14px;
 font-size:24px;
@@ -140,7 +140,7 @@ padding:20px;
 
 <div id="lockScreen" class="screen">
   <div class="lock-title">鍵がかかっています</div>
-  <input id="passwordInput" type="password" inputmode="numeric" maxlength="4" placeholder="----">
+  <input id="passwordInput" class="password-input" type="password" inputmode="numeric" maxlength="4" placeholder="----">
   <button class="btn" id="unlockBtn">開く</button>
   <div class="error" id="errorText"></div>
 </div>
@@ -159,10 +159,17 @@ padding:20px;
 
 <div id="finished" class="screen hidden">
   <div class="done">既に閲覧済みです</div>
+
+  <input id="resetPassword" class="password-input" type="password" inputmode="numeric" maxlength="4" placeholder="----">
+
+  <button class="btn" id="resetBtn">解除</button>
+
+  <div class="error" id="resetError"></div>
 </div>
 
 <script>
 const PASSWORD="0123";
+const RESET_PASSWORD="0329";
 const SAVE_KEY="mind_ai_support_finished";
 
 const images=[
@@ -186,6 +193,8 @@ const viewer=document.getElementById("viewer");
 const finished=document.getElementById("finished");
 const passwordInput=document.getElementById("passwordInput");
 const errorText=document.getElementById("errorText");
+const resetPassword=document.getElementById("resetPassword");
+const resetError=document.getElementById("resetError");
 
 if(localStorage.getItem(SAVE_KEY)){
 lockScreen.classList.add("hidden");
@@ -205,6 +214,22 @@ titleScreen.classList.remove("hidden");
 }else{
 errorText.textContent="パスワードが違います";
 passwordInput.value="";
+}
+}
+
+document.getElementById("resetBtn").addEventListener("click",resetView);
+
+resetPassword.addEventListener("keydown",e=>{
+if(e.key==="Enter") resetView();
+});
+
+function resetView(){
+if(resetPassword.value===RESET_PASSWORD){
+localStorage.removeItem(SAVE_KEY);
+location.reload();
+}else{
+resetError.textContent="パスワードが違います";
+resetPassword.value="";
 }
 }
 
