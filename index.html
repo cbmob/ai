@@ -2,282 +2,525 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>マインドAIサポート</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>MOB CARD - SPEED</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
 
-html,body{
-width:100%;
-height:100%;
-overflow:hidden;
-background:#000;
-font-family:sans-serif;
-color:#fff;
-}
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top, #234, #071018 70%);
+    color: white;
+    font-family: system-ui, sans-serif;
+    overflow: hidden;
+    touch-action: none;
+  }
 
-.screen{
-position:absolute;
-inset:0;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-}
+  #game {
+    width: 100vw;
+    height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(#123, #061018);
+    overflow: hidden;
+  }
 
-.hidden{display:none}
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    padding: 20px;
+  }
 
-#lockScreen{
-z-index:50;
-background:radial-gradient(circle,#111 0%,#000 70%);
-}
+  .screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-.lock-title{
-font-size:32px;
-font-weight:900;
-margin-bottom:24px;
-text-shadow:0 0 12px #fff;
-}
+  h1 {
+    font-size: 40px;
+    margin: 0 0 20px;
+    letter-spacing: 2px;
+  }
 
-.password-input{
-width:220px;
-padding:14px;
-font-size:24px;
-text-align:center;
-border-radius:12px;
-border:1px solid #fff;
-background:#000;
-color:#fff;
-letter-spacing:8px;
-}
+  button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 24px;
+    margin: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #fff;
+    color: #111;
+  }
 
-.error{
-height:24px;
-margin-top:12px;
-color:#ff7777;
-font-size:14px;
-}
+  .redBtn {
+    background: #ff4b5c;
+    color: white;
+  }
 
-#words{
-position:absolute;
-inset:0;
-overflow:hidden;
-pointer-events:none;
-}
+  .blackBtn {
+    background: #222;
+    color: white;
+    border: 2px solid #fff;
+  }
 
-.word{
-position:absolute;
-opacity:.18;
-font-weight:bold;
-animation:float 12s linear infinite;
-white-space:nowrap;
-}
+  #hud {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10;
+  }
 
-@keyframes float{
-0%{transform:translateY(40px) scale(.8);opacity:0}
-20%{opacity:.25}
-80%{opacity:.25}
-100%{transform:translateY(-120px) scale(1.2);opacity:0}
-}
+  #enemyArea {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    right: 0;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
 
-#title{
-font-size:clamp(40px,8vw,90px);
-font-weight:900;
-letter-spacing:4px;
-text-align:center;
-animation:fadeIn 2s ease;
-text-shadow:0 0 10px #fff,0 0 30px #fff;
-z-index:2;
-}
+  #centerArea {
+    position: absolute;
+    top: 255px;
+    left: 0;
+    right: 0;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+  }
 
-@keyframes fadeIn{
-from{opacity:0;transform:scale(.8)}
-to{opacity:1;transform:scale(1)}
-}
+  #playerArea {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 8px;
+  }
 
-.message{
-margin-top:30px;
-font-size:20px;
-opacity:.9;
-text-align:center;
-}
+  .card {
+    width: 66px;
+    height: 94px;
+    border-radius: 10px;
+    background: white;
+    color: #111;
+    border: 3px solid #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    box-shadow: 0 6px 0 rgba(0,0,0,.35);
+    position: relative;
+  }
 
-.btn{
-margin-top:40px;
-padding:14px 40px;
-font-size:18px;
-border:none;
-border-radius:999px;
-background:white;
-color:black;
-cursor:pointer;
-}
+  .card.red {
+    color: #d92135;
+  }
 
-#viewer img{
-width:100%;
-height:100%;
-object-fit:contain;
-background:black;
-}
+  .card.black {
+    color: #111;
+  }
 
-#nextBtn{
-position:absolute;
-bottom:20px;
-right:20px;
-z-index:20;
-}
+  .card.back {
+    background: repeating-linear-gradient(
+      45deg,
+      #1a4cff,
+      #1a4cff 8px,
+      #0b1f6d 8px,
+      #0b1f6d 16px
+    );
+    color: white;
+  }
 
-.done{
-font-size:32px;
-text-align:center;
-padding:20px;
-}
+  .centerCard {
+    width: 78px;
+    height: 108px;
+    font-size: 28px;
+  }
+
+  .handCard {
+    transition: transform .15s;
+  }
+
+  .handCard:active {
+    transform: translateY(-14px) scale(1.05);
+  }
+
+  #message {
+    position: absolute;
+    top: 405px;
+    left: 12px;
+    right: 12px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    min-height: 32px;
+  }
+
+  #resultPanel {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.82);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 50;
+  }
+
+  #resultPanel.show {
+    display: flex;
+  }
+
+  #resultTitle {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
 </style>
 </head>
-
 <body>
 
-<div id="lockScreen" class="screen">
-  <div class="lock-title">鍵がかかっています</div>
-  <input id="passwordInput" class="password-input" type="password" inputmode="numeric" maxlength="4" placeholder="----">
-  <button class="btn" id="unlockBtn">開く</button>
-  <div class="error" id="errorText"></div>
-</div>
+<div id="game">
 
-<div id="titleScreen" class="screen hidden">
-  <div id="words"></div>
-  <div id="title">マインドAIサポート</div>
-  <div class="message">深呼吸をして次へ進んでください</div>
-  <button class="btn" id="startBtn">次へ</button>
-</div>
+  <div id="titleScreen" class="screen active">
+    <h1>MOB CARD</h1>
+    <p>スピード</p>
+    <p>使う色を選んでください</p>
+    <button class="redBtn" onclick="startGame('red')">赤カードで遊ぶ</button>
+    <button class="blackBtn" onclick="startGame('black')">黒カードで遊ぶ</button>
+  </div>
 
-<div id="viewer" class="screen hidden">
-  <img id="slideImage">
-  <button class="btn" id="nextBtn">次へ</button>
-</div>
+  <div id="playScreen" class="screen">
+    <div id="hud">
+      <div>YOU 山札:<span id="playerDeckCount">0</span></div>
+      <div>CPU 山札:<span id="enemyDeckCount">0</span></div>
+    </div>
 
-<div id="finished" class="screen hidden">
-  <div class="done">既に閲覧済みです</div>
+    <div id="enemyArea"></div>
+    <div id="centerArea"></div>
+    <div id="message">手札を中央カードへフリック！</div>
+    <div id="playerArea"></div>
 
-  <input id="resetPassword" class="password-input" type="password" inputmode="numeric" maxlength="4" placeholder="----">
+    <div id="resultPanel">
+      <div id="resultTitle"></div>
+      <button onclick="backTitle()">タイトルへ</button>
+      <button onclick="restart()">もう一度</button>
+    </div>
+  </div>
 
-  <button class="btn" id="resetBtn">解除</button>
-
-  <div class="error" id="resetError"></div>
 </div>
 
 <script>
-const PASSWORD="0123";
-const RESET_PASSWORD="0329";
-const SAVE_KEY="mind_ai_support_finished";
+'use strict';
 
-const images=[
-"1.png",
-"12.png",
-"13.png",
-"14.png",
-"15.png",
-"20.png",
-"19.png",
-"16.png",
-"17.png",
-"18.png",
-"21.png",
-"22.png"
-];
+const titleScreen = document.getElementById('titleScreen');
+const playScreen = document.getElementById('playScreen');
+const playerArea = document.getElementById('playerArea');
+const enemyArea = document.getElementById('enemyArea');
+const centerArea = document.getElementById('centerArea');
+const message = document.getElementById('message');
+const resultPanel = document.getElementById('resultPanel');
+const resultTitle = document.getElementById('resultTitle');
+const playerDeckCount = document.getElementById('playerDeckCount');
+const enemyDeckCount = document.getElementById('enemyDeckCount');
 
-const lockScreen=document.getElementById("lockScreen");
-const titleScreen=document.getElementById("titleScreen");
-const viewer=document.getElementById("viewer");
-const finished=document.getElementById("finished");
-const passwordInput=document.getElementById("passwordInput");
-const errorText=document.getElementById("errorText");
-const resetPassword=document.getElementById("resetPassword");
-const resetError=document.getElementById("resetError");
+let selectedColor = 'red';
 
-if(localStorage.getItem(SAVE_KEY)){
-lockScreen.classList.add("hidden");
-finished.classList.remove("hidden");
+let playerDeck = [];
+let enemyDeck = [];
+let playerHand = [];
+let enemyHand = [];
+let centerCards = [];
+
+let draggingCard = null;
+let startX = 0;
+let startY = 0;
+let gameOver = false;
+let enemyTimer = null;
+
+const CARD_NAMES = {
+  1: 'A',
+  11: 'J',
+  12: 'Q',
+  13: 'K'
+};
+
+function cardLabel(num) {
+  return CARD_NAMES[num] || String(num);
 }
 
-document.getElementById("unlockBtn").addEventListener("click",unlock);
+function makeDeck(color) {
+  const suits = color === 'red'
+    ? ['♥', '♦']
+    : ['♠', '♣'];
 
-passwordInput.addEventListener("keydown",e=>{
-if(e.key==="Enter") unlock();
-});
-
-function unlock(){
-if(passwordInput.value===PASSWORD){
-lockScreen.classList.add("hidden");
-titleScreen.classList.remove("hidden");
-}else{
-errorText.textContent="パスワードが違います";
-passwordInput.value="";
-}
-}
-
-document.getElementById("resetBtn").addEventListener("click",resetView);
-
-resetPassword.addEventListener("keydown",e=>{
-if(e.key==="Enter") resetView();
-});
-
-function resetView(){
-if(resetPassword.value===RESET_PASSWORD){
-localStorage.removeItem(SAVE_KEY);
-location.reload();
-}else{
-resetError.textContent="パスワードが違います";
-resetPassword.value="";
-}
+  const deck = [];
+  for (const suit of suits) {
+    for (let n = 1; n <= 13; n++) {
+      deck.push({
+        num: n,
+        suit,
+        color
+      });
+    }
+  }
+  return shuffle(deck);
 }
 
-const words=[
-"強欲","性欲","睡眠欲","努力","食欲","不安","希望","未来",
-"絶望","哀愁","愛","執着","孤独","感謝","怒り","慈悲",
-"信念","嫉妬","幸福","後悔","恐怖","自由"
-];
-
-const container=document.getElementById("words");
-
-for(let i=0;i<80;i++){
-const div=document.createElement("div");
-div.className="word";
-div.textContent=words[Math.floor(Math.random()*words.length)];
-div.style.left=Math.random()*100+"%";
-div.style.top=Math.random()*100+"%";
-div.style.fontSize=(12+Math.random()*70)+"px";
-div.style.animationDuration=(8+Math.random()*12)+"s";
-div.style.animationDelay=(-Math.random()*15)+"s";
-container.appendChild(div);
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-let index=0;
-const image=document.getElementById("slideImage");
-
-document.getElementById("startBtn").addEventListener("click",()=>{
-titleScreen.classList.add("hidden");
-viewer.classList.remove("hidden");
-showImage();
-});
-
-function showImage(){
-image.src=images[index];
+function startGame(color) {
+  selectedColor = color;
+  titleScreen.classList.remove('active');
+  playScreen.classList.add('active');
+  setupGame();
 }
 
-document.getElementById("nextBtn").addEventListener("click",()=>{
-index++;
+function setupGame() {
+  gameOver = false;
+  resultPanel.classList.remove('show');
+  message.textContent = '手札を中央カードへフリック！';
 
-if(index>=images.length){
-localStorage.setItem(SAVE_KEY,"true");
-viewer.classList.add("hidden");
-finished.classList.remove("hidden");
-return;
+  const fullDeck = makeDeck(selectedColor);
+
+  playerDeck = fullDeck.slice(0, 13);
+  enemyDeck = fullDeck.slice(13, 26);
+
+  centerCards = [
+    playerDeck.pop(),
+    enemyDeck.pop()
+  ];
+
+  playerHand = [];
+  enemyHand = [];
+
+  drawToHand(playerDeck, playerHand);
+  drawToHand(enemyDeck, enemyHand);
+
+  render();
+
+  clearInterval(enemyTimer);
+  enemyTimer = setInterval(enemyPlay, 900);
 }
 
-showImage();
-});
+function drawToHand(deck, hand) {
+  while (hand.length < 4 && deck.length > 0) {
+    hand.push(deck.pop());
+  }
+}
+
+function canPlace(card, center) {
+  if (!card || !center) return false;
+
+  const up = center.num === 13 ? 1 : center.num + 1;
+  const down = center.num === 1 ? 13 : center.num - 1;
+
+  return card.num === up || card.num === down;
+}
+
+function render() {
+  playerArea.innerHTML = '';
+  enemyArea.innerHTML = '';
+  centerArea.innerHTML = '';
+
+  playerDeckCount.textContent = playerDeck.length;
+  enemyDeckCount.textContent = enemyDeck.length;
+
+  enemyHand.forEach(() => {
+    enemyArea.appendChild(createBackCard());
+  });
+
+  centerCards.forEach((card, index) => {
+    const el = createCard(card);
+    el.classList.add('centerCard');
+    el.dataset.centerIndex = index;
+    centerArea.appendChild(el);
+  });
+
+  playerHand.forEach((card, index) => {
+    const el = createCard(card);
+    el.classList.add('handCard');
+    el.dataset.handIndex = index;
+    attachFlick(el);
+    playerArea.appendChild(el);
+  });
+
+  checkResult();
+}
+
+function createCard(card) {
+  const el = document.createElement('div');
+  el.className = 'card ' + card.color;
+  el.innerHTML = `
+    <div>${cardLabel(card.num)}</div>
+    <div>${card.suit}</div>
+  `;
+  return el;
+}
+
+function createBackCard() {
+  const el = document.createElement('div');
+  el.className = 'card back';
+  el.textContent = 'CARD';
+  return el;
+}
+
+function attachFlick(el) {
+  el.addEventListener('pointerdown', e => {
+    if (gameOver) return;
+
+    draggingCard = el;
+    startX = e.clientX;
+    startY = e.clientY;
+    el.setPointerCapture(e.pointerId);
+  });
+
+  el.addEventListener('pointerup', e => {
+    if (!draggingCard || gameOver) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    const isFlickUp = dy < -35 && Math.abs(dy) > Math.abs(dx);
+
+    if (isFlickUp) {
+      tryPlayerPlace(Number(el.dataset.handIndex));
+    } else {
+      message.textContent = '上にフリックして出してください';
+    }
+
+    draggingCard = null;
+  });
+}
+
+function tryPlayerPlace(handIndex) {
+  const card = playerHand[handIndex];
+  if (!card) return;
+
+  const targetIndex = findPlaceTarget(card);
+
+  if (targetIndex === -1) {
+    message.textContent = 'そのカードは出せません';
+    return;
+  }
+
+  centerCards[targetIndex] = card;
+  playerHand.splice(handIndex, 1);
+  drawToHand(playerDeck, playerHand);
+
+  message.textContent = `${cardLabel(card.num)}${card.suit} を出した！`;
+  render();
+}
+
+function findPlaceTarget(card) {
+  for (let i = 0; i < centerCards.length; i++) {
+    if (canPlace(card, centerCards[i])) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function enemyPlay() {
+  if (gameOver) return;
+
+  for (let i = 0; i < enemyHand.length; i++) {
+    const card = enemyHand[i];
+    const targetIndex = findPlaceTarget(card);
+
+    if (targetIndex !== -1) {
+      centerCards[targetIndex] = card;
+      enemyHand.splice(i, 1);
+      drawToHand(enemyDeck, enemyHand);
+      message.textContent = `CPUが ${cardLabel(card.num)}${card.suit} を出した！`;
+      render();
+      return;
+    }
+  }
+
+  if (!hasAnyMove()) {
+    resetCenterCards();
+  }
+}
+
+function hasAnyMove() {
+  return playerHand.some(card => findPlaceTarget(card) !== -1)
+      || enemyHand.some(card => findPlaceTarget(card) !== -1);
+}
+
+function resetCenterCards() {
+  if (playerDeck.length > 0) {
+    centerCards[0] = playerDeck.pop();
+  }
+
+  if (enemyDeck.length > 0) {
+    centerCards[1] = enemyDeck.pop();
+  }
+
+  message.textContent = '出せるカードなし！中央カードを交換！';
+  render();
+}
+
+function checkResult() {
+  if (gameOver) return;
+
+  if (playerDeck.length === 0 && playerHand.length === 0) {
+    finishGame(true);
+    return;
+  }
+
+  if (enemyDeck.length === 0 && enemyHand.length === 0) {
+    finishGame(false);
+  }
+}
+
+function finishGame(win) {
+  gameOver = true;
+  clearInterval(enemyTimer);
+  resultTitle.textContent = win ? 'WIN!' : 'LOSE...';
+  resultPanel.classList.add('show');
+}
+
+function restart() {
+  setupGame();
+}
+
+function backTitle() {
+  clearInterval(enemyTimer);
+  playScreen.classList.remove('active');
+  titleScreen.classList.add('active');
+}
 </script>
 
 </body>
