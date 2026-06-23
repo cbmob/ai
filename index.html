@@ -14,15 +14,8 @@ body{
   color:#241200;
   overflow-x:hidden;
 }
-button,input,textarea{
-  font-family:inherit;
-}
-.app{
-  max-width:560px;
-  margin:0 auto;
-  min-height:100vh;
-  padding:14px;
-}
+button,input,textarea{font-family:inherit}
+.app{max-width:560px;margin:0 auto;min-height:100vh;padding:14px}
 .hero{
   padding:26px 16px 20px;
   border:4px solid #241200;
@@ -36,284 +29,95 @@ button,input,textarea{
   text-shadow:3px 3px 0 #241200;
   margin-bottom:18px;
 }
-.heroTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-.logo{
-  font-size:30px;
-  line-height:1;
-}
-.sub{
-  margin-top:8px;
-  font-size:13px;
-  color:#fffbd0;
-}
+.heroTop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:30px;line-height:1}
+.sub{margin-top:8px;font-size:13px;color:#fffbd0}
 .adminBtn{
-  border:3px solid #fff;
-  background:#241200;
-  color:#fff200;
-  border-radius:999px;
-  padding:10px 12px;
-  font-size:13px;
-  box-shadow:0 4px 0 #000;
+  border:3px solid #fff;background:#241200;color:#fff200;border-radius:999px;
+  padding:10px 12px;font-size:13px;box-shadow:0 4px 0 #000;
 }
-.status{
-  margin-top:12px;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
+.status{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
 .pill{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  background:#fff;
-  color:#241200;
-  border:3px solid #241200;
-  border-radius:999px;
-  padding:7px 10px;
-  font-size:12px;
-  text-shadow:none;
+  display:inline-flex;align-items:center;gap:6px;background:#fff;color:#241200;
+  border:3px solid #241200;border-radius:999px;padding:7px 10px;font-size:12px;text-shadow:none;
 }
 .searchBox{
-  margin:18px 0;
-  padding:14px;
-  background:rgba(255,255,255,.9);
-  border:4px solid #fff;
-  border-radius:22px;
-  box-shadow:0 6px 0 #241200;
+  margin:18px 0;padding:14px;background:rgba(255,255,255,.9);
+  border:4px solid #fff;border-radius:22px;box-shadow:0 6px 0 #241200;
 }
 .searchInput{
-  width:100%;
-  padding:14px 15px;
-  border:3px solid #241200;
-  border-radius:16px;
-  font-size:16px;
-  background:#fffef3;
+  width:100%;padding:14px 15px;border:3px solid #241200;border-radius:16px;
+  font-size:16px;background:#fffef3;
 }
-.tagTabs{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:10px 0 4px;
-  -webkit-overflow-scrolling:touch;
-}
+.tagTabs{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;-webkit-overflow-scrolling:touch}
 .tagTabs::-webkit-scrollbar{display:none}
 .tagBtn{
-  flex:0 0 auto;
-  border:3px solid #241200;
-  border-radius:999px;
-  padding:10px 13px;
-  background:#fff;
-  color:#241200;
-  box-shadow:0 4px 0 #241200;
-  font-size:13px;
-  white-space:nowrap;
+  flex:0 0 auto;border:3px solid #241200;border-radius:999px;padding:10px 13px;
+  background:#fff;color:#241200;box-shadow:0 4px 0 #241200;font-size:13px;white-space:nowrap;
 }
 .tagBtn.active{
-  transform:translateY(3px);
-  box-shadow:0 1px 0 #241200;
-  background:linear-gradient(135deg,#ff0055,#ff8a00);
-  color:#fff;
-  text-shadow:2px 2px 0 #241200;
+  transform:translateY(3px);box-shadow:0 1px 0 #241200;
+  background:linear-gradient(135deg,#ff0055,#ff8a00);color:#fff;text-shadow:2px 2px 0 #241200;
 }
-.sectionTitle{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:18px 0 12px;
-}
-.sectionTitle h2{
-  margin:0;
-  font-size:22px;
-  text-shadow:2px 2px 0 #fff;
-}
-.count{
-  font-size:13px;
-  background:#241200;
-  color:#fff;
-  border-radius:999px;
-  padding:7px 10px;
-}
-.songList{
-  display:grid;
-  gap:14px;
-  padding-bottom:90px;
-}
+.sectionTitle{display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px}
+.sectionTitle h2{margin:0;font-size:22px;text-shadow:2px 2px 0 #fff}
+.count{font-size:13px;background:#241200;color:#fff;border-radius:999px;padding:7px 10px}
+.songList{display:grid;gap:14px;padding-bottom:90px}
 .songCard{
-  position:relative;
-  padding:16px;
-  border:4px solid #241200;
-  border-radius:22px;
-  background:#fffef6;
-  box-shadow:0 6px 0 #241200;
-  overflow:hidden;
+  position:relative;padding:16px;border:4px solid #241200;border-radius:22px;
+  background:#fffef6;box-shadow:0 6px 0 #241200;overflow:hidden;
 }
 .songCard:before{
-  content:"";
-  position:absolute;
-  right:-24px;
-  top:-24px;
-  width:78px;
-  height:78px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle,#fff 0 7px,#241200 8px 12px,#ff0055 13px 20px,#111 21px 34px,#fff200 35px 38px,#111 39px);
+  content:"";position:absolute;right:-24px;top:-24px;width:78px;height:78px;border-radius:50%;
+  background:radial-gradient(circle,#fff 0 7px,#241200 8px 12px,#ff0055 13px 20px,#111 21px 34px,#fff200 35px 38px,#111 39px);
   opacity:.16;
 }
 .songTitle{
-  position:relative;
-  margin:0 0 5px;
-  font-size:19px;
-  line-height:1.35;
-  color:#ff0055;
-  word-break:keep-all;
-  overflow-wrap:anywhere;
+  position:relative;margin:0 0 5px;font-size:19px;line-height:1.35;color:#ff0055;
+  word-break:keep-all;overflow-wrap:anywhere;
 }
-.artist{
-  position:relative;
-  font-family:system-ui,sans-serif;
-  font-weight:900;
-  font-size:13px;
-  color:#6a3500;
-  margin-bottom:10px;
-}
-.comment{
-  position:relative;
-  font-family:system-ui,sans-serif;
-  font-weight:700;
-  line-height:1.75;
-  font-size:14px;
-  margin:10px 0;
-}
-.songTags{
-  position:relative;
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin:10px 0;
-}
+.artist{position:relative;font-family:system-ui,sans-serif;font-weight:900;font-size:13px;color:#6a3500;margin-bottom:10px}
+.comment{position:relative;font-family:system-ui,sans-serif;font-weight:700;line-height:1.75;font-size:14px;margin:10px 0}
+.songTags{position:relative;display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
 .songTag{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:5px 8px;
-  border:2px solid #241200;
-  border-radius:999px;
-  background:#fff1b8;
-  color:#241200;
-  font-size:11px;
-  font-weight:900;
-  white-space:nowrap;
-  cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;padding:5px 8px;border:2px solid #241200;
+  border-radius:999px;background:#fff1b8;color:#241200;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer;
 }
-.songTag:active{
-  transform:scale(.96);
-}
-.actions{
-  position:relative;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:12px;
-}
+.songTag:active{transform:scale(.96)}
+.actions{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .linkBtn,.smallBtn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  border:3px solid #241200;
-  border-radius:14px;
-  padding:10px 12px;
-  background:#ff003c;
-  color:#fff;
-  font-size:13px;
-  box-shadow:0 4px 0 #241200;
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:3px solid #241200;
+  border-radius:14px;padding:10px 12px;background:#ff003c;color:#fff;font-size:13px;box-shadow:0 4px 0 #241200;
 }
-.smallBtn{
-  background:#fff;
-  color:#241200;
-}
+.smallBtn{background:#fff;color:#241200}
 .adminPanel{
-  display:none;
-  margin:18px 0;
-  padding:16px;
-  border:4px solid #241200;
-  border-radius:24px;
-  background:#f5edff;
-  box-shadow:0 6px 0 #241200;
+  display:none;margin:18px 0;padding:16px;border:4px solid #241200;border-radius:24px;
+  background:#f5edff;box-shadow:0 6px 0 #241200;
 }
 .adminPanel.show{display:block}
-.adminPanel h2{
-  margin:0 0 12px;
-  color:#7b2cff;
-}
-.formGrid{
-  display:grid;
-  gap:10px;
-}
+.adminPanel h2{margin:0 0 12px;color:#7b2cff}
+.formGrid{display:grid;gap:10px}
 .input,.textarea,.select{
-  width:100%;
-  padding:12px;
-  border:3px solid #241200;
-  border-radius:14px;
-  background:#fff;
-  font-size:14px;
+  width:100%;padding:12px;border:3px solid #241200;border-radius:14px;background:#fff;font-size:14px;
 }
-.textarea{
-  min-height:86px;
-  resize:vertical;
-}
-.checkGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
+.textarea{min-height:86px;resize:vertical}
+.checkGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .checkItem{
-  display:flex;
-  gap:7px;
-  align-items:center;
-  padding:9px;
-  background:#fff;
-  border:2px solid #241200;
-  border-radius:12px;
-  font-family:system-ui,sans-serif;
-  font-weight:800;
-  font-size:13px;
+  display:flex;gap:7px;align-items:center;padding:9px;background:#fff;border:2px solid #241200;
+  border-radius:12px;font-family:system-ui,sans-serif;font-weight:800;font-size:13px;
 }
 .mainBtn{
-  width:100%;
-  border:4px solid #fff;
-  border-radius:16px;
-  padding:14px;
-  background:linear-gradient(135deg,#7b2cff,#ff4de3);
-  color:#fff;
-  text-shadow:2px 2px 0 #241200;
-  box-shadow:0 5px 0 #241200;
-  font-size:16px;
+  width:100%;border:4px solid #fff;border-radius:16px;padding:14px;
+  background:linear-gradient(135deg,#7b2cff,#ff4de3);color:#fff;text-shadow:2px 2px 0 #241200;
+  box-shadow:0 5px 0 #241200;font-size:16px;
 }
-.dangerBtn{
-  background:linear-gradient(135deg,#ff003c,#ff8a00);
-}
+.dangerBtn{background:linear-gradient(135deg,#ff003c,#ff8a00)}
+.reloadBtn{background:linear-gradient(135deg,#00aaff,#00dd88)}
 .notice{
-  font-family:system-ui,sans-serif;
-  font-weight:700;
-  font-size:12px;
-  line-height:1.6;
-  background:#fff8dd;
-  padding:10px;
-  border:2px solid #241200;
-  border-radius:12px;
+  font-family:system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1.6;
+  background:#fff8dd;padding:10px;border:2px solid #241200;border-radius:12px;
 }
-.footer{
-  text-align:center;
-  padding:24px 0 40px;
-  color:#6a3500;
-  font-size:12px;
-}
+.footer{text-align:center;padding:24px 0 40px;color:#6a3500;font-size:12px}
 @media(max-width:390px){
   .app{padding:10px}
   .logo{font-size:26px}
@@ -343,7 +147,8 @@ button,input,textarea{
   <section id="adminPanel" class="adminPanel">
     <h2>管理モード</h2>
     <div class="notice">
-      追加・編集はこの端末のブラウザ内に保存されます。GitHubへ反映する場合は、下の「data.js用データ出力」をコピーして差し替えてください。
+      追加・編集はこの端末のブラウザ内に保存されます。GitHubへ反映する場合は、下の「data.js用データ出力」をコピーして差し替えてください。<br>
+      data.jsを直接更新した後は「data.js再読込」を押すと、最新のdata.jsを読み直します。
     </div>
 
     <div class="formGrid" style="margin-top:12px;">
@@ -366,8 +171,11 @@ button,input,textarea{
 
     <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
 
-    <button id="exportBtn" class="mainBtn">data.js用データ出力</button>
-    <textarea id="exportArea" class="textarea" style="margin-top:10px;min-height:160px;" readonly placeholder="ここに出力されます"></textarea>
+    <div class="formGrid">
+      <button id="exportBtn" class="mainBtn">data.js用データ出力</button>
+      <button id="reloadDataBtn" class="mainBtn reloadBtn">data.js再読込</button>
+      <textarea id="exportArea" class="textarea" style="margin-top:10px;min-height:160px;" readonly placeholder="ここに出力されます"></textarea>
+    </div>
   </section>
 
   <section class="searchBox">
@@ -416,6 +224,27 @@ function loadState(){
 
 function saveState(){
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+}
+
+function reloadDefaultData(){
+  if(!confirm('現在この端末に保存されている編集データを破棄して、data.jsを再読込しますか？\n\n※必要なら先に「data.js用データ出力」で保存してください。')){
+    return;
+  }
+
+  state = {
+    tags:clone(DEFAULT_TAGS),
+    songs:clone(DEFAULT_SONGS)
+  };
+
+  activeTag = 'all';
+  editingId = null;
+  saveState();
+  clearForm();
+  document.getElementById('searchInput').value = '';
+  document.getElementById('exportArea').value = '';
+  renderAll();
+
+  alert('data.jsを再読込しました。');
 }
 
 function esc(text){
@@ -681,6 +510,7 @@ document.getElementById('saveSongBtn').addEventListener('click',saveSong);
 document.getElementById('clearEditBtn').addEventListener('click',clearForm);
 document.getElementById('addTagBtn').addEventListener('click',addTag);
 document.getElementById('exportBtn').addEventListener('click',exportData);
+document.getElementById('reloadDataBtn').addEventListener('click',reloadDefaultData);
 document.getElementById('searchInput').addEventListener('input',renderSongs);
 
 renderAll();
