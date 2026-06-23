@@ -198,13 +198,20 @@ button,input,textarea{
 }
 .songTag{
   display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:5px 8px;
   border:2px solid #241200;
   border-radius:999px;
   background:#fff1b8;
+  color:#241200;
   font-size:11px;
   font-weight:900;
   white-space:nowrap;
+  cursor:pointer;
+}
+.songTag:active{
+  transform:scale(.96);
 }
 .actions{
   position:relative;
@@ -498,16 +505,33 @@ function renderSongs(){
     <article class="songCard">
       <h3 class="songTitle">${esc(song.title)}</h3>
       <div class="artist">${esc(song.artist || 'Unknown Artist')}</div>
+
       <div class="songTags">
-        ${(song.tags || []).map(tag => `<span class="songTag">${esc(getTagLabel(tag))}</span>`).join('')}
+        ${(song.tags || []).map(tag => `
+          <button class="songTag" type="button" data-jump-tag="${esc(tag)}">
+            ${esc(getTagLabel(tag))}
+          </button>
+        `).join('')}
       </div>
+
       <p class="comment">${esc(song.comment)}</p>
+
       <div class="actions">
         ${song.url ? `<a class="linkBtn" href="${esc(song.url)}" target="_blank" rel="noopener">▶ YouTube</a>` : ''}
         ${isAdmin ? `<button class="smallBtn editBtn" data-id="${esc(song.id)}">編集</button><button class="smallBtn deleteBtn" data-id="${esc(song.id)}">削除</button>` : ''}
       </div>
     </article>
   `).join('');
+
+  root.querySelectorAll('.songTag').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      activeTag = btn.dataset.jumpTag;
+      document.getElementById('searchInput').value = '';
+      renderTagTabs();
+      renderSongs();
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
 
   root.querySelectorAll('.editBtn').forEach(btn=>{
     btn.addEventListener('click',()=>startEdit(btn.dataset.id));
