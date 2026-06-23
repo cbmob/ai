@@ -2,526 +2,664 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>MOB CARD - SPEED</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wonda Music Library</title>
 <style>
-  * {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
-
-  body {
-    margin: 0;
-    background: radial-gradient(circle at top, #234, #071018 70%);
-    color: white;
-    font-family: system-ui, sans-serif;
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  #game {
-    width: 100vw;
-    height: 100vh;
-    max-width: 430px;
-    margin: 0 auto;
-    position: relative;
-    background: linear-gradient(#123, #061018);
-    overflow: hidden;
-  }
-
-  .screen {
-    position: absolute;
-    inset: 0;
-    display: none;
-    padding: 20px;
-  }
-
-  .screen.active {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  h1 {
-    font-size: 40px;
-    margin: 0 0 20px;
-    letter-spacing: 2px;
-  }
-
-  button {
-    border: none;
-    border-radius: 14px;
-    padding: 14px 24px;
-    margin: 8px;
-    font-size: 18px;
-    font-weight: bold;
-    background: #fff;
-    color: #111;
-  }
-
-  .redBtn {
-    background: #ff4b5c;
-    color: white;
-  }
-
-  .blackBtn {
-    background: #222;
-    color: white;
-    border: 2px solid #fff;
-  }
-
-  #hud {
-    position: absolute;
-    top: 8px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    font-weight: bold;
-    font-size: 14px;
-    z-index: 10;
-  }
-
-  #enemyArea {
-    position: absolute;
-    top: 55px;
-    left: 0;
-    right: 0;
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  #centerArea {
-    position: absolute;
-    top: 255px;
-    left: 0;
-    right: 0;
-    height: 130px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-  }
-
-  #playerArea {
-    position: absolute;
-    bottom: 36px;
-    left: 0;
-    right: 0;
-    height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    gap: 8px;
-  }
-
-  .card {
-    width: 66px;
-    height: 94px;
-    border-radius: 10px;
-    background: white;
-    color: #111;
-    border: 3px solid #111;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 900;
-    box-shadow: 0 6px 0 rgba(0,0,0,.35);
-    position: relative;
-  }
-
-  .card.red {
-    color: #d92135;
-  }
-
-  .card.black {
-    color: #111;
-  }
-
-  .card.back {
-    background: repeating-linear-gradient(
-      45deg,
-      #1a4cff,
-      #1a4cff 8px,
-      #0b1f6d 8px,
-      #0b1f6d 16px
-    );
-    color: white;
-  }
-
-  .centerCard {
-    width: 78px;
-    height: 108px;
-    font-size: 28px;
-  }
-
-  .handCard {
-    transition: transform .15s;
-  }
-
-  .handCard:active {
-    transform: translateY(-14px) scale(1.05);
-  }
-
-  #message {
-    position: absolute;
-    top: 405px;
-    left: 12px;
-    right: 12px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    min-height: 32px;
-  }
-
-  #resultPanel {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,.82);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    z-index: 50;
-  }
-
-  #resultPanel.show {
-    display: flex;
-  }
-
-  #resultTitle {
-    font-size: 42px;
-    font-weight: 900;
-    margin-bottom: 20px;
-  }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Arial Black","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  background:linear-gradient(180deg,#fff7db 0%,#ffd36a 42%,#ff8a3d 100%);
+  color:#241200;
+  overflow-x:hidden;
+}
+button,input,textarea{
+  font-family:inherit;
+}
+.app{
+  max-width:560px;
+  margin:0 auto;
+  min-height:100vh;
+  padding:14px;
+}
+.hero{
+  padding:26px 16px 20px;
+  border:4px solid #241200;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 15% 20%,#ff2b7a 0 8%,transparent 9%),
+    radial-gradient(circle at 82% 15%,#00c8ff 0 8%,transparent 9%),
+    linear-gradient(135deg,#ff0055,#ff8a00,#fff200);
+  box-shadow:0 8px 0 #241200;
+  color:#fff;
+  text-shadow:3px 3px 0 #241200;
+  margin-bottom:18px;
+}
+.heroTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.logo{
+  font-size:30px;
+  line-height:1;
+}
+.sub{
+  margin-top:8px;
+  font-size:13px;
+  color:#fffbd0;
+}
+.adminBtn{
+  border:3px solid #fff;
+  background:#241200;
+  color:#fff200;
+  border-radius:999px;
+  padding:10px 12px;
+  font-size:13px;
+  box-shadow:0 4px 0 #000;
+}
+.status{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#fff;
+  color:#241200;
+  border:3px solid #241200;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:12px;
+  text-shadow:none;
+}
+.searchBox{
+  margin:18px 0;
+  padding:14px;
+  background:rgba(255,255,255,.9);
+  border:4px solid #fff;
+  border-radius:22px;
+  box-shadow:0 6px 0 #241200;
+}
+.searchInput{
+  width:100%;
+  padding:14px 15px;
+  border:3px solid #241200;
+  border-radius:16px;
+  font-size:16px;
+  background:#fffef3;
+}
+.tagTabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 0 4px;
+  -webkit-overflow-scrolling:touch;
+}
+.tagTabs::-webkit-scrollbar{display:none}
+.tagBtn{
+  flex:0 0 auto;
+  border:3px solid #241200;
+  border-radius:999px;
+  padding:10px 13px;
+  background:#fff;
+  color:#241200;
+  box-shadow:0 4px 0 #241200;
+  font-size:13px;
+  white-space:nowrap;
+}
+.tagBtn.active{
+  transform:translateY(3px);
+  box-shadow:0 1px 0 #241200;
+  background:linear-gradient(135deg,#ff0055,#ff8a00);
+  color:#fff;
+  text-shadow:2px 2px 0 #241200;
+}
+.sectionTitle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:18px 0 12px;
+}
+.sectionTitle h2{
+  margin:0;
+  font-size:22px;
+  text-shadow:2px 2px 0 #fff;
+}
+.count{
+  font-size:13px;
+  background:#241200;
+  color:#fff;
+  border-radius:999px;
+  padding:7px 10px;
+}
+.songList{
+  display:grid;
+  gap:14px;
+  padding-bottom:90px;
+}
+.songCard{
+  position:relative;
+  padding:16px;
+  border:4px solid #241200;
+  border-radius:22px;
+  background:#fffef6;
+  box-shadow:0 6px 0 #241200;
+  overflow:hidden;
+}
+.songCard:before{
+  content:"";
+  position:absolute;
+  right:-24px;
+  top:-24px;
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,#fff 0 7px,#241200 8px 12px,#ff0055 13px 20px,#111 21px 34px,#fff200 35px 38px,#111 39px);
+  opacity:.16;
+}
+.songTitle{
+  position:relative;
+  margin:0 0 5px;
+  font-size:19px;
+  line-height:1.35;
+  color:#ff0055;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.artist{
+  position:relative;
+  font-family:system-ui,sans-serif;
+  font-weight:900;
+  font-size:13px;
+  color:#6a3500;
+  margin-bottom:10px;
+}
+.comment{
+  position:relative;
+  font-family:system-ui,sans-serif;
+  font-weight:700;
+  line-height:1.75;
+  font-size:14px;
+  margin:10px 0;
+}
+.songTags{
+  position:relative;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:10px 0;
+}
+.songTag{
+  display:inline-flex;
+  padding:5px 8px;
+  border:2px solid #241200;
+  border-radius:999px;
+  background:#fff1b8;
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.actions{
+  position:relative;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.linkBtn,.smallBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  border:3px solid #241200;
+  border-radius:14px;
+  padding:10px 12px;
+  background:#ff003c;
+  color:#fff;
+  font-size:13px;
+  box-shadow:0 4px 0 #241200;
+}
+.smallBtn{
+  background:#fff;
+  color:#241200;
+}
+.adminPanel{
+  display:none;
+  margin:18px 0;
+  padding:16px;
+  border:4px solid #241200;
+  border-radius:24px;
+  background:#f5edff;
+  box-shadow:0 6px 0 #241200;
+}
+.adminPanel.show{display:block}
+.adminPanel h2{
+  margin:0 0 12px;
+  color:#7b2cff;
+}
+.formGrid{
+  display:grid;
+  gap:10px;
+}
+.input,.textarea,.select{
+  width:100%;
+  padding:12px;
+  border:3px solid #241200;
+  border-radius:14px;
+  background:#fff;
+  font-size:14px;
+}
+.textarea{
+  min-height:86px;
+  resize:vertical;
+}
+.checkGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.checkItem{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  padding:9px;
+  background:#fff;
+  border:2px solid #241200;
+  border-radius:12px;
+  font-family:system-ui,sans-serif;
+  font-weight:800;
+  font-size:13px;
+}
+.mainBtn{
+  width:100%;
+  border:4px solid #fff;
+  border-radius:16px;
+  padding:14px;
+  background:linear-gradient(135deg,#7b2cff,#ff4de3);
+  color:#fff;
+  text-shadow:2px 2px 0 #241200;
+  box-shadow:0 5px 0 #241200;
+  font-size:16px;
+}
+.dangerBtn{
+  background:linear-gradient(135deg,#ff003c,#ff8a00);
+}
+.notice{
+  font-family:system-ui,sans-serif;
+  font-weight:700;
+  font-size:12px;
+  line-height:1.6;
+  background:#fff8dd;
+  padding:10px;
+  border:2px solid #241200;
+  border-radius:12px;
+}
+.footer{
+  text-align:center;
+  padding:24px 0 40px;
+  color:#6a3500;
+  font-size:12px;
+}
+@media(max-width:390px){
+  .app{padding:10px}
+  .logo{font-size:26px}
+  .songTitle{font-size:17px}
+  .checkGrid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
+<div class="app">
 
-<div id="game">
+  <header class="hero">
+    <div class="heroTop">
+      <div>
+        <div class="logo">MUSIC<br>LIBRARY</div>
+        <div class="sub">Studio Wonda Song Archive</div>
+      </div>
+      <button id="adminBtn" class="adminBtn">🔒 Admin</button>
+    </div>
+    <div class="status">
+      <span id="songTotal" class="pill">曲数 0</span>
+      <span id="tagTotal" class="pill">タグ 0</span>
+      <span id="adminStatus" class="pill">閲覧モード</span>
+    </div>
+  </header>
 
-  <div id="titleScreen" class="screen active">
-    <h1>MOB CARD</h1>
-    <p>スピード</p>
-    <p>使う色を選んでください</p>
-    <button class="redBtn" onclick="startGame('red')">赤カードで遊ぶ</button>
-    <button class="blackBtn" onclick="startGame('black')">黒カードで遊ぶ</button>
-  </div>
-
-  <div id="playScreen" class="screen">
-    <div id="hud">
-      <div>YOU 山札:<span id="playerDeckCount">0</span></div>
-      <div>CPU 山札:<span id="enemyDeckCount">0</span></div>
+  <section id="adminPanel" class="adminPanel">
+    <h2>管理モード</h2>
+    <div class="notice">
+      追加・編集はこの端末のブラウザ内に保存されます。GitHubへ反映する場合は、下の「data.js用データ出力」をコピーして差し替えてください。
     </div>
 
-    <div id="enemyArea"></div>
-    <div id="centerArea"></div>
-    <div id="message">手札を中央カードへフリック！</div>
-    <div id="playerArea"></div>
-
-    <div id="resultPanel">
-      <div id="resultTitle"></div>
-      <button onclick="backTitle()">タイトルへ</button>
-      <button onclick="restart()">もう一度</button>
+    <div class="formGrid" style="margin-top:12px;">
+      <input id="songTitleInput" class="input" placeholder="曲名">
+      <input id="songArtistInput" class="input" placeholder="アーティスト">
+      <input id="songUrlInput" class="input" placeholder="YouTube URL">
+      <textarea id="songCommentInput" class="textarea" placeholder="一言コメント"></textarea>
+      <div id="tagChecks" class="checkGrid"></div>
+      <button id="saveSongBtn" class="mainBtn">曲を保存</button>
+      <button id="clearEditBtn" class="mainBtn dangerBtn">入力をリセット</button>
     </div>
-  </div>
 
+    <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
+
+    <div class="formGrid">
+      <input id="newTagKeyInput" class="input" placeholder="タグID 例：kohki_select">
+      <input id="newTagLabelInput" class="input" placeholder="表示名 例：⭐ Kohki Select">
+      <button id="addTagBtn" class="mainBtn">タグ追加</button>
+    </div>
+
+    <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
+
+    <button id="exportBtn" class="mainBtn">data.js用データ出力</button>
+    <textarea id="exportArea" class="textarea" style="margin-top:10px;min-height:160px;" readonly placeholder="ここに出力されます"></textarea>
+  </section>
+
+  <section class="searchBox">
+    <input id="searchInput" class="searchInput" placeholder="曲名・アーティスト・コメント検索">
+    <div id="tagTabs" class="tagTabs"></div>
+  </section>
+
+  <section class="sectionTitle">
+    <h2 id="currentTitle">📀 ALL SONGS</h2>
+    <div id="currentCount" class="count">0曲</div>
+  </section>
+
+  <main id="songList" class="songList"></main>
+
+  <div class="footer">© Studio Wonda Music Library</div>
 </div>
 
+<script src="data.js"></script>
 <script>
 'use strict';
 
-const titleScreen = document.getElementById('titleScreen');
-const playScreen = document.getElementById('playScreen');
-const playerArea = document.getElementById('playerArea');
-const enemyArea = document.getElementById('enemyArea');
-const centerArea = document.getElementById('centerArea');
-const message = document.getElementById('message');
-const resultPanel = document.getElementById('resultPanel');
-const resultTitle = document.getElementById('resultTitle');
-const playerDeckCount = document.getElementById('playerDeckCount');
-const enemyDeckCount = document.getElementById('enemyDeckCount');
+const SAVE_KEY = 'wonda_music_library_v1';
+const ADMIN_CODE = '0321';
 
-let selectedColor = 'red';
+let state = loadState();
+let activeTag = 'all';
+let editingId = null;
+let isAdmin = localStorage.getItem('wonda_music_admin') === '1';
 
-let playerDeck = [];
-let enemyDeck = [];
-let playerHand = [];
-let enemyHand = [];
-let centerCards = [];
-
-let draggingCard = null;
-let startX = 0;
-let startY = 0;
-let gameOver = false;
-let enemyTimer = null;
-
-const CARD_NAMES = {
-  1: 'A',
-  11: 'J',
-  12: 'Q',
-  13: 'K'
-};
-
-function cardLabel(num) {
-  return CARD_NAMES[num] || String(num);
+function clone(obj){
+  return JSON.parse(JSON.stringify(obj));
 }
 
-function makeDeck(color) {
-  const suits = color === 'red'
-    ? ['♥', '♦']
-    : ['♠', '♣'];
-
-  const deck = [];
-  for (const suit of suits) {
-    for (let n = 1; n <= 13; n++) {
-      deck.push({
-        num: n,
-        suit,
-        color
-      });
-    }
+function loadState(){
+  const saved = localStorage.getItem(SAVE_KEY);
+  if(saved){
+    try{
+      return JSON.parse(saved);
+    }catch(e){}
   }
-  return shuffle(deck);
+  return {
+    tags:clone(DEFAULT_TAGS),
+    songs:clone(DEFAULT_SONGS)
+  };
 }
 
-function shuffle(arr) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function saveState(){
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
 }
 
-function startGame(color) {
-  selectedColor = color;
-  titleScreen.classList.remove('active');
-  playScreen.classList.add('active');
-  setupGame();
+function esc(text){
+  return String(text || '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;');
 }
 
-function setupGame() {
-  gameOver = false;
-  resultPanel.classList.remove('show');
-  message.textContent = '手札を中央カードへフリック！';
-
-  const fullDeck = makeDeck(selectedColor);
-
-  playerDeck = fullDeck.slice(0, 13);
-  enemyDeck = fullDeck.slice(13, 26);
-
-  centerCards = [
-    playerDeck.pop(),
-    enemyDeck.pop()
-  ];
-
-  playerHand = [];
-  enemyHand = [];
-
-  drawToHand(playerDeck, playerHand);
-  drawToHand(enemyDeck, enemyHand);
-
-  render();
-
-  clearInterval(enemyTimer);
-  enemyTimer = setInterval(enemyPlay, 900);
+function normalize(text){
+  return String(text || '').toLowerCase();
 }
 
-function drawToHand(deck, hand) {
-  while (hand.length < 4 && deck.length > 0) {
-    hand.push(deck.pop());
-  }
+function getTagLabel(key){
+  const tag = state.tags.find(t => t.key === key);
+  return tag ? tag.label : key;
 }
 
-function canPlace(card, center) {
-  if (!card || !center) return false;
-
-  const up = center.num === 13 ? 1 : center.num + 1;
-  const down = center.num === 1 ? 13 : center.num - 1;
-
-  return card.num === up || card.num === down;
+function renderAll(){
+  renderStatus();
+  renderTagTabs();
+  renderTagChecks();
+  renderSongs();
+  renderAdmin();
 }
 
-function render() {
-  playerArea.innerHTML = '';
-  enemyArea.innerHTML = '';
-  centerArea.innerHTML = '';
-
-  playerDeckCount.textContent = playerDeck.length;
-  enemyDeckCount.textContent = enemyDeck.length;
-
-  enemyHand.forEach(() => {
-    enemyArea.appendChild(createBackCard());
-  });
-
-  centerCards.forEach((card, index) => {
-    const el = createCard(card);
-    el.classList.add('centerCard');
-    el.dataset.centerIndex = index;
-    centerArea.appendChild(el);
-  });
-
-  playerHand.forEach((card, index) => {
-    const el = createCard(card);
-    el.classList.add('handCard');
-    el.dataset.handIndex = index;
-    attachFlick(el);
-    playerArea.appendChild(el);
-  });
-
-  checkResult();
+function renderStatus(){
+  document.getElementById('songTotal').textContent = `曲数 ${state.songs.length}`;
+  document.getElementById('tagTotal').textContent = `タグ ${state.tags.length}`;
+  document.getElementById('adminStatus').textContent = isAdmin ? '管理モード' : '閲覧モード';
 }
 
-function createCard(card) {
-  const el = document.createElement('div');
-  el.className = 'card ' + card.color;
-  el.innerHTML = `
-    <div>${cardLabel(card.num)}</div>
-    <div>${card.suit}</div>
-  `;
-  return el;
+function renderAdmin(){
+  document.getElementById('adminPanel').classList.toggle('show', isAdmin);
+  document.getElementById('adminBtn').textContent = isAdmin ? '🔓 Admin ON' : '🔒 Admin';
 }
 
-function createBackCard() {
-  const el = document.createElement('div');
-  el.className = 'card back';
-  el.textContent = 'CARD';
-  return el;
-}
+function renderTagTabs(){
+  const root = document.getElementById('tagTabs');
+  const tabs = [{key:'all', label:'📀 ALL SONGS'}, ...state.tags];
 
-function attachFlick(el) {
-  el.addEventListener('pointerdown', e => {
-    if (gameOver) return;
+  root.innerHTML = tabs.map(tag => `
+    <button class="tagBtn ${activeTag === tag.key ? 'active' : ''}" data-tag="${esc(tag.key)}">
+      ${esc(tag.label)}
+    </button>
+  `).join('');
 
-    draggingCard = el;
-    startX = e.clientX;
-    startY = e.clientY;
-    el.setPointerCapture(e.pointerId);
-  });
-
-  el.addEventListener('pointerup', e => {
-    if (!draggingCard || gameOver) return;
-
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-
-    const isFlickUp = dy < -35 && Math.abs(dy) > Math.abs(dx);
-
-    if (isFlickUp) {
-      tryPlayerPlace(Number(el.dataset.handIndex));
-    } else {
-      message.textContent = '上にフリックして出してください';
-    }
-
-    draggingCard = null;
+  root.querySelectorAll('.tagBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      activeTag = btn.dataset.tag;
+      renderSongs();
+      renderTagTabs();
+    });
   });
 }
 
-function tryPlayerPlace(handIndex) {
-  const card = playerHand[handIndex];
-  if (!card) return;
+function renderTagChecks(){
+  const root = document.getElementById('tagChecks');
+  root.innerHTML = state.tags.map(tag => `
+    <label class="checkItem">
+      <input type="checkbox" value="${esc(tag.key)}">
+      <span>${esc(tag.label)}</span>
+    </label>
+  `).join('');
+}
 
-  const targetIndex = findPlaceTarget(card);
+function getFilteredSongs(){
+  const q = normalize(document.getElementById('searchInput').value);
+  return state.songs.filter(song=>{
+    const tagOk = activeTag === 'all' || (song.tags || []).includes(activeTag);
+    const text = normalize(`${song.title} ${song.artist} ${song.comment}`);
+    const searchOk = !q || text.includes(q);
+    return tagOk && searchOk;
+  });
+}
 
-  if (targetIndex === -1) {
-    message.textContent = 'そのカードは出せません';
+function renderSongs(){
+  const root = document.getElementById('songList');
+  const songs = getFilteredSongs();
+  const title = activeTag === 'all' ? '📀 ALL SONGS' : getTagLabel(activeTag);
+
+  document.getElementById('currentTitle').textContent = title;
+  document.getElementById('currentCount').textContent = `${songs.length}曲`;
+
+  root.innerHTML = songs.map(song => `
+    <article class="songCard">
+      <h3 class="songTitle">${esc(song.title)}</h3>
+      <div class="artist">${esc(song.artist || 'Unknown Artist')}</div>
+      <div class="songTags">
+        ${(song.tags || []).map(tag => `<span class="songTag">${esc(getTagLabel(tag))}</span>`).join('')}
+      </div>
+      <p class="comment">${esc(song.comment)}</p>
+      <div class="actions">
+        ${song.url ? `<a class="linkBtn" href="${esc(song.url)}" target="_blank" rel="noopener">▶ YouTube</a>` : ''}
+        ${isAdmin ? `<button class="smallBtn editBtn" data-id="${esc(song.id)}">編集</button><button class="smallBtn deleteBtn" data-id="${esc(song.id)}">削除</button>` : ''}
+      </div>
+    </article>
+  `).join('');
+
+  root.querySelectorAll('.editBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>startEdit(btn.dataset.id));
+  });
+
+  root.querySelectorAll('.deleteBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>deleteSong(btn.dataset.id));
+  });
+}
+
+function getFormTags(){
+  return Array.from(document.querySelectorAll('#tagChecks input:checked')).map(i=>i.value);
+}
+
+function setFormTags(tags){
+  document.querySelectorAll('#tagChecks input').forEach(i=>{
+    i.checked = (tags || []).includes(i.value);
+  });
+}
+
+function clearForm(){
+  editingId = null;
+  document.getElementById('songTitleInput').value = '';
+  document.getElementById('songArtistInput').value = '';
+  document.getElementById('songUrlInput').value = '';
+  document.getElementById('songCommentInput').value = '';
+  setFormTags([]);
+  document.getElementById('saveSongBtn').textContent = '曲を保存';
+}
+
+function startEdit(id){
+  const song = state.songs.find(s=>s.id === id);
+  if(!song) return;
+
+  editingId = id;
+  document.getElementById('songTitleInput').value = song.title || '';
+  document.getElementById('songArtistInput').value = song.artist || '';
+  document.getElementById('songUrlInput').value = song.url || '';
+  document.getElementById('songCommentInput').value = song.comment || '';
+  setFormTags(song.tags || []);
+  document.getElementById('saveSongBtn').textContent = '編集を保存';
+  window.scrollTo({top:document.getElementById('adminPanel').offsetTop - 10, behavior:'smooth'});
+}
+
+function saveSong(){
+  const title = document.getElementById('songTitleInput').value.trim();
+  const artist = document.getElementById('songArtistInput').value.trim();
+  const url = document.getElementById('songUrlInput').value.trim();
+  const comment = document.getElementById('songCommentInput').value.trim();
+  const tags = getFormTags();
+
+  if(!title){
+    alert('曲名を入力してください');
     return;
   }
 
-  centerCards[targetIndex] = card;
-  playerHand.splice(handIndex, 1);
-  drawToHand(playerDeck, playerHand);
-
-  message.textContent = `${cardLabel(card.num)}${card.suit} を出した！`;
-  render();
-}
-
-function findPlaceTarget(card) {
-  for (let i = 0; i < centerCards.length; i++) {
-    if (canPlace(card, centerCards[i])) {
-      return i;
+  if(editingId){
+    const song = state.songs.find(s=>s.id === editingId);
+    if(song){
+      song.title = title;
+      song.artist = artist;
+      song.url = url;
+      song.comment = comment;
+      song.tags = tags;
     }
+  }else{
+    state.songs.unshift({
+      id:'song_' + Date.now(),
+      title,
+      artist,
+      url,
+      comment,
+      tags
+    });
   }
-  return -1;
+
+  saveState();
+  clearForm();
+  renderAll();
 }
 
-function enemyPlay() {
-  if (gameOver) return;
-
-  for (let i = 0; i < enemyHand.length; i++) {
-    const card = enemyHand[i];
-    const targetIndex = findPlaceTarget(card);
-
-    if (targetIndex !== -1) {
-      centerCards[targetIndex] = card;
-      enemyHand.splice(i, 1);
-      drawToHand(enemyDeck, enemyHand);
-      message.textContent = `CPUが ${cardLabel(card.num)}${card.suit} を出した！`;
-      render();
-      return;
-    }
-  }
-
-  if (!hasAnyMove()) {
-    resetCenterCards();
-  }
+function deleteSong(id){
+  if(!confirm('この曲を削除しますか？')) return;
+  state.songs = state.songs.filter(s=>s.id !== id);
+  saveState();
+  renderAll();
 }
 
-function hasAnyMove() {
-  return playerHand.some(card => findPlaceTarget(card) !== -1)
-      || enemyHand.some(card => findPlaceTarget(card) !== -1);
-}
+function addTag(){
+  const key = document.getElementById('newTagKeyInput').value.trim();
+  const label = document.getElementById('newTagLabelInput').value.trim();
 
-function resetCenterCards() {
-  if (playerDeck.length > 0) {
-    centerCards[0] = playerDeck.pop();
-  }
-
-  if (enemyDeck.length > 0) {
-    centerCards[1] = enemyDeck.pop();
-  }
-
-  message.textContent = '出せるカードなし！中央カードを交換！';
-  render();
-}
-
-function checkResult() {
-  if (gameOver) return;
-
-  if (playerDeck.length === 0 && playerHand.length === 0) {
-    finishGame(true);
+  if(!key || !label){
+    alert('タグIDと表示名を入力してください');
     return;
   }
 
-  if (enemyDeck.length === 0 && enemyHand.length === 0) {
-    finishGame(false);
+  if(!/^[a-zA-Z0-9_-]+$/.test(key)){
+    alert('タグIDは半角英数字・ハイフン・アンダーバーのみです');
+    return;
   }
+
+  if(state.tags.some(t=>t.key === key)){
+    alert('同じタグIDが既にあります');
+    return;
+  }
+
+  state.tags.push({key,label});
+  saveState();
+
+  document.getElementById('newTagKeyInput').value = '';
+  document.getElementById('newTagLabelInput').value = '';
+
+  renderAll();
 }
 
-function finishGame(win) {
-  gameOver = true;
-  clearInterval(enemyTimer);
-  resultTitle.textContent = win ? 'WIN!' : 'LOSE...';
-  resultPanel.classList.add('show');
+function exportData(){
+  const text =
+`'use strict';
+
+const DEFAULT_TAGS = ${JSON.stringify(state.tags,null,2)};
+
+const DEFAULT_SONGS = ${JSON.stringify(state.songs,null,2)};
+`;
+  document.getElementById('exportArea').value = text;
 }
 
-function restart() {
-  setupGame();
-}
+document.getElementById('adminBtn').addEventListener('click',()=>{
+  if(isAdmin){
+    isAdmin = false;
+    localStorage.removeItem('wonda_music_admin');
+    renderAll();
+    return;
+  }
 
-function backTitle() {
-  clearInterval(enemyTimer);
-  playScreen.classList.remove('active');
-  titleScreen.classList.add('active');
-}
+  const code = prompt('管理者コードを入力');
+  if(code === ADMIN_CODE){
+    isAdmin = true;
+    localStorage.setItem('wonda_music_admin','1');
+    renderAll();
+  }else if(code !== null){
+    alert('コードが違います');
+  }
+});
+
+document.getElementById('saveSongBtn').addEventListener('click',saveSong);
+document.getElementById('clearEditBtn').addEventListener('click',clearForm);
+document.getElementById('addTagBtn').addEventListener('click',addTag);
+document.getElementById('exportBtn').addEventListener('click',exportData);
+document.getElementById('searchInput').addEventListener('input',renderSongs);
+
+renderAll();
 </script>
-
 </body>
 </html>
