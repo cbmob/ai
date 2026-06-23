@@ -805,8 +805,7 @@ const DEFAULT_SONGS = [
     url:'https://youtu.be/N8k8tuCRBxc?si=7aFbAnaBp2JPmn_D',
     comment:'僕が作った曲です。たくさん聴いてください。',
     tags:['original']
-  }
-];
+  },
   {
     id:'song_100',
     title:'一陽来復',
@@ -991,3 +990,4 @@ const DEFAULT_SONGS = [
     comment:'',
     tags:[]
   }
+];
