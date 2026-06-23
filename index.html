@@ -93,53 +93,20 @@ button,input,textarea{font-family:inherit}
 .playBtn{background:#ff003c;color:#fff}
 .openBtn{background:#fff;color:#241200}
 .playerBox{
-  position:relative;
-  margin-top:14px;
-  border:4px solid #241200;
-  border-radius:18px;
-  background:#111;
-  box-shadow:0 5px 0 #241200;
-  overflow:hidden;
+  position:relative;margin-top:14px;border:4px solid #241200;border-radius:18px;
+  background:#111;box-shadow:0 5px 0 #241200;overflow:hidden;
 }
-.playerBox iframe{
-  width:100%;
-  aspect-ratio:16/9;
-  display:block;
-  border:0;
-}
+.playerBox iframe{width:100%;aspect-ratio:16/9;display:block;border:0}
 .inlineEdit{
-  position:relative;
-  margin-top:14px;
-  padding:12px;
-  border:3px solid #241200;
-  border-radius:18px;
-  background:#fff3ff;
+  position:relative;margin-top:14px;padding:12px;border:3px solid #241200;
+  border-radius:18px;background:#fff3ff;
 }
-.inlineEditTitle{
-  margin:0 0 10px;
-  color:#7b2cff;
-  font-size:16px;
-}
-.inlineGrid{
-  display:grid;
-  gap:9px;
-}
-.inlineTagGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-}
+.inlineEditTitle{margin:0 0 10px;color:#7b2cff;font-size:16px}
+.inlineGrid{display:grid;gap:9px}
+.inlineTagGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .inlineTagItem{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background:#fff;
-  border:2px solid #241200;
-  border-radius:12px;
-  padding:8px;
-  font-family:system-ui,sans-serif;
-  font-weight:800;
-  font-size:12px;
+  display:flex;align-items:center;gap:6px;background:#fff;border:2px solid #241200;
+  border-radius:12px;padding:8px;font-family:system-ui,sans-serif;font-weight:800;font-size:12px;
 }
 .adminPanel{
   display:none;margin:18px 0;padding:16px;border:4px solid #241200;border-radius:24px;
@@ -147,6 +114,7 @@ button,input,textarea{font-family:inherit}
 }
 .adminPanel.show{display:block}
 .adminPanel h2{margin:0 0 12px;color:#7b2cff}
+.adminPanel h3{margin:0;color:#ff0055}
 .formGrid{display:grid;gap:10px}
 .input,.textarea,.select{
   width:100%;padding:12px;border:3px solid #241200;border-radius:14px;background:#fff;font-size:14px;
@@ -164,6 +132,52 @@ button,input,textarea{font-family:inherit}
 }
 .dangerBtn{background:linear-gradient(135deg,#ff003c,#ff8a00)}
 .reloadBtn{background:linear-gradient(135deg,#00aaff,#00dd88)}
+.copyBtn{background:linear-gradient(135deg,#00c853,#b2ff59)}
+.downloadBtn{background:linear-gradient(135deg,#00aaff,#7b2cff)}
+.folderBox{
+  padding:12px;
+  border:3px solid #241200;
+  border-radius:18px;
+  background:#fff8ff;
+}
+.folderSongList{
+  max-height:360px;
+  overflow:auto;
+  display:grid;
+  gap:8px;
+  padding:8px;
+  background:#fff;
+  border:3px solid #241200;
+  border-radius:16px;
+  -webkit-overflow-scrolling:touch;
+}
+.folderSongItem{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:8px;
+  align-items:start;
+  padding:10px;
+  border:2px solid #241200;
+  border-radius:14px;
+  background:#fffef3;
+  font-family:system-ui,sans-serif;
+}
+.folderSongItem strong{
+  display:block;
+  font-size:13px;
+  color:#ff0055;
+}
+.folderSongItem span{
+  display:block;
+  font-size:11px;
+  font-weight:800;
+  color:#6a3500;
+}
+.folderTools{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
 .notice{
   font-family:system-ui,sans-serif;font-weight:700;font-size:12px;line-height:1.6;
   background:#fff8dd;padding:10px;border:2px solid #241200;border-radius:12px;
@@ -173,7 +187,7 @@ button,input,textarea{font-family:inherit}
   .app{padding:10px}
   .logo{font-size:26px}
   .songTitle{font-size:17px}
-  .checkGrid,.inlineTagGrid{grid-template-columns:1fr}
+  .checkGrid,.inlineTagGrid,.folderTools{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -199,7 +213,7 @@ button,input,textarea{font-family:inherit}
     <h2>管理モード</h2>
     <div class="notice">
       新規追加はここで行います。既存曲の編集は、各曲カードの「編集」を押すとその場で編集できます。<br>
-      GitHubへ反映する場合は、最後に「data.js用データ出力」をコピーして data.js を上書きしてください。
+      GitHubへ反映する場合は、最後に「data.js用データ出力」→「コピー」または「ダウンロード」を使ってください。
     </div>
 
     <div class="formGrid" style="margin-top:12px;">
@@ -214,16 +228,38 @@ button,input,textarea{font-family:inherit}
 
     <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
 
+    <div class="folderBox">
+      <h3>フォルダ作成・曲を選択して入れる</h3>
+      <div class="notice" style="margin:10px 0;">
+        フォルダ名を作って、下の曲一覧から入れたい曲を選択してください。作成すると、その曲に新しいタグが付きます。
+      </div>
+      <div class="formGrid">
+        <input id="folderKeyInput" class="input" placeholder="フォルダID 例：kohki_select">
+        <input id="folderLabelInput" class="input" placeholder="表示名 例：⭐ Kohki Select">
+        <input id="folderSearchInput" class="input" placeholder="曲を検索">
+        <div class="folderTools">
+          <button id="folderSelectAllBtn" class="mainBtn">表示中を全選択</button>
+          <button id="folderClearAllBtn" class="mainBtn dangerBtn">選択解除</button>
+        </div>
+        <div id="folderSongList" class="folderSongList"></div>
+        <button id="createFolderBtn" class="mainBtn">フォルダ作成して曲を入れる</button>
+      </div>
+    </div>
+
+    <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
+
     <div class="formGrid">
-      <input id="newTagKeyInput" class="input" placeholder="タグID 例：kohki_select">
-      <input id="newTagLabelInput" class="input" placeholder="表示名 例：⭐ Kohki Select">
-      <button id="addTagBtn" class="mainBtn">タグ追加</button>
+      <input id="newTagKeyInput" class="input" placeholder="タグID 例：message2">
+      <input id="newTagLabelInput" class="input" placeholder="表示名 例：📢 Message 2">
+      <button id="addTagBtn" class="mainBtn">空のタグだけ追加</button>
     </div>
 
     <hr style="border:none;border-top:3px solid #241200;margin:18px 0;">
 
     <div class="formGrid">
       <button id="exportBtn" class="mainBtn">data.js用データ出力</button>
+      <button id="copyExportBtn" class="mainBtn copyBtn">出力内容をコピー</button>
+      <button id="downloadExportBtn" class="mainBtn downloadBtn">data.jsをダウンロード</button>
       <button id="reloadDataBtn" class="mainBtn reloadBtn">data.js再読込</button>
       <textarea id="exportArea" class="textarea" style="margin-top:10px;min-height:160px;" readonly placeholder="ここに出力されます"></textarea>
     </div>
@@ -335,10 +371,20 @@ function getYoutubeId(url){
   return '';
 }
 
+function makeDataJsText(){
+  return `'use strict';
+
+const DEFAULT_TAGS = ${JSON.stringify(state.tags,null,2)};
+
+const DEFAULT_SONGS = ${JSON.stringify(state.songs,null,2)};
+`;
+}
+
 function renderAll(){
   renderStatus();
   renderTagTabs();
   renderTagChecks();
+  renderFolderSongList();
   renderSongs();
   renderAdmin();
 }
@@ -381,6 +427,29 @@ function renderTagChecks(){
     <label class="checkItem">
       <input type="checkbox" value="${esc(tag.key)}">
       <span>${esc(tag.label)}</span>
+    </label>
+  `).join('');
+}
+
+function renderFolderSongList(){
+  const root = document.getElementById('folderSongList');
+  if(!root) return;
+
+  const qInput = document.getElementById('folderSearchInput');
+  const q = normalize(qInput ? qInput.value : '');
+
+  const songs = state.songs.filter(song=>{
+    const text = normalize(`${song.title} ${song.artist} ${song.comment}`);
+    return !q || text.includes(q);
+  });
+
+  root.innerHTML = songs.map(song=>`
+    <label class="folderSongItem">
+      <input type="checkbox" class="folderSongCheck" value="${esc(song.id)}">
+      <div>
+        <strong>${esc(song.title)}</strong>
+        <span>${esc(song.artist || 'Unknown Artist')}</span>
+      </div>
     </label>
   `).join('');
 }
@@ -628,15 +697,84 @@ function addTag(){
   renderAll();
 }
 
+function createFolderFromSelection(){
+  const key = document.getElementById('folderKeyInput').value.trim();
+  const label = document.getElementById('folderLabelInput').value.trim();
+  const selectedIds = Array.from(document.querySelectorAll('.folderSongCheck:checked')).map(i=>i.value);
+
+  if(!key || !label){
+    alert('フォルダIDと表示名を入力してください');
+    return;
+  }
+
+  if(!/^[a-zA-Z0-9_-]+$/.test(key)){
+    alert('フォルダIDは半角英数字・ハイフン・アンダーバーのみです');
+    return;
+  }
+
+  if(state.tags.some(t=>t.key === key)){
+    alert('同じフォルダIDが既にあります');
+    return;
+  }
+
+  if(selectedIds.length === 0){
+    alert('フォルダに入れる曲を選択してください');
+    return;
+  }
+
+  state.tags.push({key,label});
+
+  state.songs.forEach(song=>{
+    if(selectedIds.includes(song.id)){
+      if(!Array.isArray(song.tags)) song.tags = [];
+      if(!song.tags.includes(key)) song.tags.push(key);
+    }
+  });
+
+  saveState();
+
+  document.getElementById('folderKeyInput').value = '';
+  document.getElementById('folderLabelInput').value = '';
+  document.getElementById('folderSearchInput').value = '';
+
+  activeTag = key;
+  editingId = null;
+  activePlayerId = null;
+
+  renderAll();
+  alert('フォルダを作成しました。');
+}
+
 function exportData(){
-  const text =
-`'use strict';
+  document.getElementById('exportArea').value = makeDataJsText();
+}
 
-const DEFAULT_TAGS = ${JSON.stringify(state.tags,null,2)};
-
-const DEFAULT_SONGS = ${JSON.stringify(state.songs,null,2)};
-`;
+async function copyExportData(){
+  const text = makeDataJsText();
   document.getElementById('exportArea').value = text;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    alert('data.js用データをコピーしました。');
+  }catch(e){
+    document.getElementById('exportArea').select();
+    alert('自動コピーできませんでした。表示された内容を手動でコピーしてください。');
+  }
+}
+
+function downloadExportData(){
+  const text = makeDataJsText();
+  document.getElementById('exportArea').value = text;
+
+  const blob = new Blob([text], {type:'text/javascript'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.js';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 document.getElementById('adminBtn').addEventListener('click',()=>{
@@ -661,7 +799,17 @@ document.getElementById('adminBtn').addEventListener('click',()=>{
 document.getElementById('saveSongBtn').addEventListener('click',saveSong);
 document.getElementById('clearEditBtn').addEventListener('click',clearForm);
 document.getElementById('addTagBtn').addEventListener('click',addTag);
+document.getElementById('createFolderBtn').addEventListener('click',createFolderFromSelection);
+document.getElementById('folderSearchInput').addEventListener('input',renderFolderSongList);
+document.getElementById('folderSelectAllBtn').addEventListener('click',()=>{
+  document.querySelectorAll('.folderSongCheck').forEach(i=>i.checked = true);
+});
+document.getElementById('folderClearAllBtn').addEventListener('click',()=>{
+  document.querySelectorAll('.folderSongCheck').forEach(i=>i.checked = false);
+});
 document.getElementById('exportBtn').addEventListener('click',exportData);
+document.getElementById('copyExportBtn').addEventListener('click',copyExportData);
+document.getElementById('downloadExportBtn').addEventListener('click',downloadExportData);
 document.getElementById('reloadDataBtn').addEventListener('click',reloadDefaultData);
 document.getElementById('searchInput').addEventListener('input',()=>{
   activePlayerId = null;
