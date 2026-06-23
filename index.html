@@ -90,6 +90,23 @@ button,input,textarea{font-family:inherit}
   border-radius:14px;padding:10px 12px;background:#ff003c;color:#fff;font-size:13px;box-shadow:0 4px 0 #241200;
 }
 .smallBtn{background:#fff;color:#241200}
+.playBtn{background:#ff003c;color:#fff}
+.openBtn{background:#fff;color:#241200}
+.playerBox{
+  position:relative;
+  margin-top:14px;
+  border:4px solid #241200;
+  border-radius:18px;
+  background:#111;
+  box-shadow:0 5px 0 #241200;
+  overflow:hidden;
+}
+.playerBox iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  display:block;
+  border:0;
+}
 .adminPanel{
   display:none;margin:18px 0;padding:16px;border:4px solid #241200;border-radius:24px;
   background:#f5edff;box-shadow:0 6px 0 #241200;
@@ -203,6 +220,7 @@ const ADMIN_CODE = '0321';
 let state = loadState();
 let activeTag = 'all';
 let editingId = null;
+let activePlayerId = null;
 let isAdmin = localStorage.getItem('wonda_music_admin') === '1';
 
 function clone(obj){
@@ -238,6 +256,7 @@ function reloadDefaultData(){
 
   activeTag = 'all';
   editingId = null;
+  activePlayerId = null;
   saveState();
   clearForm();
   document.getElementById('searchInput').value = '';
@@ -262,6 +281,24 @@ function normalize(text){
 function getTagLabel(key){
   const tag = state.tags.find(t => t.key === key);
   return tag ? tag.label : key;
+}
+
+function getYoutubeId(url){
+  const text = String(url || '').trim();
+
+  let match = text.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+  if(match) return match[1];
+
+  match = text.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
+  if(match) return match[1];
+
+  match = text.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
+  if(match) return match[1];
+
+  match = text.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/);
+  if(match) return match[1];
+
+  return '';
 }
 
 function renderAll(){
@@ -296,6 +333,7 @@ function renderTagTabs(){
   root.querySelectorAll('.tagBtn').forEach(btn=>{
     btn.addEventListener('click',()=>{
       activeTag = btn.dataset.tag;
+      activePlayerId = null;
       renderSongs();
       renderTagTabs();
     });
@@ -330,35 +368,61 @@ function renderSongs(){
   document.getElementById('currentTitle').textContent = title;
   document.getElementById('currentCount').textContent = `${songs.length}曲`;
 
-  root.innerHTML = songs.map(song => `
-    <article class="songCard">
-      <h3 class="songTitle">${esc(song.title)}</h3>
-      <div class="artist">${esc(song.artist || 'Unknown Artist')}</div>
+  root.innerHTML = songs.map(song => {
+    const youtubeId = getYoutubeId(song.url);
+    const isPlaying = activePlayerId === song.id && youtubeId;
 
-      <div class="songTags">
-        ${(song.tags || []).map(tag => `
-          <button class="songTag" type="button" data-jump-tag="${esc(tag)}">
-            ${esc(getTagLabel(tag))}
-          </button>
-        `).join('')}
-      </div>
+    return `
+      <article class="songCard">
+        <h3 class="songTitle">${esc(song.title)}</h3>
+        <div class="artist">${esc(song.artist || 'Unknown Artist')}</div>
 
-      <p class="comment">${esc(song.comment)}</p>
+        <div class="songTags">
+          ${(song.tags || []).map(tag => `
+            <button class="songTag" type="button" data-jump-tag="${esc(tag)}">
+              ${esc(getTagLabel(tag))}
+            </button>
+          `).join('')}
+        </div>
 
-      <div class="actions">
-        ${song.url ? `<a class="linkBtn" href="${esc(song.url)}" target="_blank" rel="noopener">▶ YouTube</a>` : ''}
-        ${isAdmin ? `<button class="smallBtn editBtn" data-id="${esc(song.id)}">編集</button><button class="smallBtn deleteBtn" data-id="${esc(song.id)}">削除</button>` : ''}
-      </div>
-    </article>
-  `).join('');
+        <p class="comment">${esc(song.comment)}</p>
+
+        <div class="actions">
+          ${youtubeId ? `<button class="smallBtn playBtn" data-play-id="${esc(song.id)}">${isPlaying ? '■ 閉じる' : '▶ ページ内で聴く'}</button>` : ''}
+          ${song.url ? `<a class="linkBtn openBtn" href="${esc(song.url)}" target="_blank" rel="noopener">YouTubeで開く</a>` : ''}
+          ${isAdmin ? `<button class="smallBtn editBtn" data-id="${esc(song.id)}">編集</button><button class="smallBtn deleteBtn" data-id="${esc(song.id)}">削除</button>` : ''}
+        </div>
+
+        ${isPlaying ? `
+          <div class="playerBox">
+            <iframe
+              src="https://www.youtube.com/embed/${esc(youtubeId)}?rel=0"
+              title="${esc(song.title)}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        ` : ''}
+      </article>
+    `;
+  }).join('');
 
   root.querySelectorAll('.songTag').forEach(btn=>{
     btn.addEventListener('click',()=>{
       activeTag = btn.dataset.jumpTag;
+      activePlayerId = null;
       document.getElementById('searchInput').value = '';
       renderTagTabs();
       renderSongs();
       window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  root.querySelectorAll('.playBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.dataset.playId;
+      activePlayerId = activePlayerId === id ? null : id;
+      renderSongs();
     });
   });
 
@@ -511,7 +575,10 @@ document.getElementById('clearEditBtn').addEventListener('click',clearForm);
 document.getElementById('addTagBtn').addEventListener('click',addTag);
 document.getElementById('exportBtn').addEventListener('click',exportData);
 document.getElementById('reloadDataBtn').addEventListener('click',reloadDefaultData);
-document.getElementById('searchInput').addEventListener('input',renderSongs);
+document.getElementById('searchInput').addEventListener('input',()=>{
+  activePlayerId = null;
+  renderSongs();
+});
 
 renderAll();
 </script>
