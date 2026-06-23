@@ -807,3 +807,187 @@ const DEFAULT_SONGS = [
     tags:['original']
   }
 ];
+  {
+    id:'song_100',
+    title:'一陽来復',
+    artist:'CHICO CARLITO ft CHOUJI 唾奇',
+    url:'https://youtu.be/ix9YBgjXcn0?si=TTYzS-DQOSTLU_Z8',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_101',
+    title:'GILA GILA',
+    artist:'Awich ft JP THE WAVY YZERR',
+    url:'https://youtu.be/nJaFpoo9Fl0?si=wrlGro00SJnQ2dbL',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_102',
+    title:'同じ人間',
+    artist:'TOKYO世界',
+    url:'https://youtu.be/3l5BK5UHgMI?si=Mck-h1Xf8GjtTH29',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_103',
+    title:'Fate',
+    artist:'Anarchy',
+    url:'https://youtu.be/P4_HwzxnG0I?si=tHTmb8yZv6hE0-6H',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_104',
+    title:'Dandelion',
+    artist:'RIP SLYME',
+    url:'https://youtu.be/P4_HwzxnG0I?si=tHTmb8yZv6hE0-6H',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_105',
+    title:'イツナロウバ',
+    artist:'KICK THE CAN CREW',
+    url:'https://youtu.be/6pgm6OdUyAM?si=UZFHaGEGML_eCEh-',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_106',
+    title:'みどり',
+    artist:'CHEHON',
+    url:'https://youtu.be/Uadex_ZsNAc?si=YSkCVb_Yf-Ywt9wY',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_107',
+    title:'morrow',
+    artist:'Dragon Ash',
+    url:'https://youtu.be/FbMm_n2GYgM?si=iKJGN-CwMxbTxB-1',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_108',
+    title:'Mellow Akira',
+    artist:'Lick-G',
+    url:'https://youtu.be/qayqvSdmF30?si=JZPUEMjfbm5AcY4V',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_109',
+    title:'Empire Of The Sun',
+    artist:'Zeebra',
+    url:'https://youtu.be/6EWImmZfgtc?si=e6iTMs_PoShjX00I',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_110',
+    title:'LOSER',
+    artist:'AKLO',
+    url:'https://youtu.be/xNd7WA0yWRQ?si=s4mEXtBsM8NWlhgM',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_111',
+    title:'ALL GOOD',
+    artist:'RYKEYDADDYDIRTY',
+    url:'https://youtu.be/6r8I4IZAma0?si=BSvh8FajQVUgnfaG',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_112',
+    title:'Little Lonely',
+    artist:'MuKuRo × Disry',
+    url:'https://youtu.be/pcoKAgelaPU?si=X_n2UVVb1RRKluh3',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_113',
+    title:'BLAC',
+    artist:'妖艶金魚',
+    url:'https://youtu.be/UuHU7k4Q6S0?si=SQtvvDbn_jG2RkSy',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_114',
+    title:'BLACK remix',
+    artist:'妖艶金魚 ft MuKuRo',
+    url:'https://youtu.be/ul9PsCeWxds?si=Javw1ZyoY6xjb_KJ',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_115',
+    title:'Mountain Top',
+    artist:'Novel Core',
+    url:'https://youtu.be/vgGZlIU06tg?si=ydAn3cIvoS0CzM6L',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_116',
+    title:'Rep',
+    artist:'ZORN ft MACCHO',
+    url:'https://youtu.be/tjPQVvUHi3g?si=0gtiMVBv29nXSW_I',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_117',
+    title:'KATTARINA',
+    artist:'LANA',
+    url:'https://youtu.be/bH7oQC64x1U?si=gn155jRulj6T8ciq',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_118',
+    title:'POOL',
+    artist:'おかもとえみ',
+    url:'https://youtu.be/qjkRqVQnG7s?si=1bCeiT_qIqIQ7dBP',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_119',
+    title:'rhythm',
+    artist:'iri',
+    url:'https://youtu.be/R_yT9mpeY3w?si=Rn51QExlA8r0JmKi',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_120',
+    title:'BLACK BOX',
+    artist:'Arche',
+    url:'https://youtu.be/2Z47rxCnNw8?si=5-SEbC2epF9V3vIX',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_121',
+    title:'琥珀色の街、上海蟹の朝',
+    artist:'くるり',
+    url:'https://youtu.be/NyddMMiViZc?si=Bs7U0mjdqBA1Qc2U',
+    comment:'',
+    tags:[]
+  },
+  {
+    id:'song_122',
+    title:'スカートの砂',
+    artist:'UA',
+    url:'https://youtu.be/AEEMOaOZGlM?si=4rn_IwoD3QMmy7X8',
+    comment:'',
+    tags:[]
+  }
